@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import django.db.models.deletion
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 
 
 class Migration(migrations.Migration):
@@ -22,7 +23,7 @@ class Migration(migrations.Migration):
                 ('object_id', models.PositiveIntegerField(db_index=True, null=True, verbose_name='object id', blank=True)),
                 ('object_repr', models.TextField(verbose_name='object representation')),
                 ('action', models.PositiveSmallIntegerField(verbose_name='action', choices=[(0, 'create'), (1, 'update'), (2, 'delete')])),
-                ('changes', models.TextField(verbose_name='change message', blank=True)),
+                ('changes', JSONField(verbose_name='change message', blank=True, default=dict)),
                 ('timestamp', models.DateTimeField(auto_now_add=True, verbose_name='timestamp')),
                 ('actor', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.SET_NULL, verbose_name='actor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
                 ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', verbose_name='content type', to='contenttypes.ContentType')),

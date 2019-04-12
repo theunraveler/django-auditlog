@@ -1,5 +1,3 @@
-import json
-
 from django.conf import settings
 try:
     from django.core import urlresolvers
@@ -49,7 +47,7 @@ class LogEntryAdminMixin(object):
     def msg_short(self, obj):
         if obj.action == 2:
             return ''  # delete
-        changes = json.loads(obj.changes)
+        changes = obj.changes
         s = '' if len(changes) == 1 else 's'
         fields = ', '.join(changes.keys())
         if len(fields) > MAX:
@@ -61,7 +59,7 @@ class LogEntryAdminMixin(object):
     def msg(self, obj):
         if obj.action == 2:
             return ''  # delete
-        changes = json.loads(obj.changes)
+        changes = obj.changes
         msg = '<table><tr><th>#</th><th>Field</th><th>From</th><th>To</th></tr>'
         for i, field in enumerate(sorted(changes), 1):
             value = [i, field] + (['***', '***'] if field == 'password' else changes[field])
